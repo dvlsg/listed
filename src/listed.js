@@ -14,6 +14,16 @@ class List extends Array {
     }
     return list;
   }
+
+  static of() {
+    const length = arguments.length >>> 0;
+    const list = new List(length);
+    let index = -1;
+    while (++index < length) {
+      list[index] = arguments[index];
+    }
+    return list;
+  }
 }
 
 module.exports = {
