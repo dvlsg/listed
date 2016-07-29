@@ -75,4 +75,23 @@ describe('List', () => {
     });
   });
 
+  describe('.of()', () => {
+    it('should return instanceof List', () => {
+      let list = List.of();
+      assert.instanceOf(list, List);
+    });
+
+    it('should set single number argument as first element', () => {
+      let actual = List.of(1);
+      let expected = List.from([ 1 ]);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should accept multiple arguments', () => {
+      let actual = List.of(undefined, null, 0, false, '');
+      let expected = List.from([ undefined, null, 0, false, '' ]);
+      assert.deepEqual(actual, expected);
+    });
+  });
+
 });
