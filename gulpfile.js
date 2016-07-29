@@ -6,7 +6,6 @@ const eslint = require('gulp-eslint');
 const sequence = require('run-sequence');
 const _glob = require('glob');
 const co = require('co');
-const fs = require('fs');
 const childProcess = require('child_process');
 
 const entry = './index.js';
@@ -27,7 +26,6 @@ const glob = (path, options = {}) => new Promise((resolve, reject) => {
 
 const spawn = (command, args = [], options = { stdio: 'inherit' }) => new Promise((resolve, reject) => {
   const child = childProcess.spawn(command, args, options);
-
   child.once('error', reject);
   child.once('close', resolve);
 });
