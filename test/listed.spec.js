@@ -44,4 +44,35 @@ describe('List', () => {
     });
   });
 
+  describe('.from()', () => {
+    it('should return instanceof List', () => {
+      let list = List.from([]);
+      assert.instanceOf(list, List);
+    });
+
+    it('should throw on empty arguments', () => {
+      assert.throws(() => List.from());
+    });
+
+    it('should accept an array argument', () => {
+      let actual = List.from([ 1, 2, 3 ]);
+      let expected = List.of(1, 2, 3);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should accept a list argument', () => {
+      let expected = List.of(1, 2, 3);
+      let actual = List.from(expected);
+      assert.notStrictEqual(actual, expected);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should accept an array-like argument', () => {
+      let input = { 0: 1, 1: 2, 2: 3, length: 3 };
+      let actual = List.from(input);
+      let expected = List.of(1, 2, 3);
+      assert.deepEqual(actual, expected);
+    });
+  });
+
 });
