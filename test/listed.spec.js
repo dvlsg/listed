@@ -10,6 +10,29 @@ describe('List', () => {
       let list = new List();
       assert.instanceOf(list, List);
     });
+
+    it('should return instanceof Array', () => {
+      let list = new List();
+      assert.instanceOf(list, Array);
+    });
+
+    it('should set length with single number argument', () => {
+      let list = new List(5);
+      assert.equal(list.length, 5);
+    });
+
+    it('should set first element with single non-number arguments', () => {
+      let actual = new List('1');
+      let expected = List.of('1');
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should set multiple arguments as elements', () => {
+      let actual = new List(1, 2, 3, 4, 5);
+      let expected = List.of(1, 2, 3, 4, 5);
+      assert.equal(actual.length, 5);
+      assert.deepEqual(actual, expected);
+    });
   });
 
   describe('#[Symbol.toStringTag]()', () => {
