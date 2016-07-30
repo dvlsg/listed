@@ -110,6 +110,13 @@ describe('List', () => {
       assert.deepEqual(actual, expected);
     });
 
+    it('should provide index to the predicate', () => {
+      let list = List.of(1, 2, 3);
+      let actual = list.filter((x, i) => i > 1);
+      let expected = List.of(3);
+      assert.deepEqual(actual, expected);
+    });
+
     it('should use identity fn by default', () => {
       let list = List.of(0, 1, 2, null, undefined, '', 3);
       let actual = list.filter();
