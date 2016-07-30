@@ -94,6 +94,30 @@ describe('List', () => {
     });
   });
 
+  describe('#filter()', () => {
+    it('should return a new List', () => {
+      let list = List.of(1, 2, 3);
+      let filtered = list.filter(x => x > 1);
+      assert.instanceOf(filtered, List);
+      assert.notStrictEqual(list, filtered);
+      assert.notDeepEqual(list, filtered);
+    });
+
+    it('should filter by a given predicate', () => {
+      let list = List.of(1, 2, 3);
+      let actual = list.filter(x => x > 1);
+      let expected = List.of(2, 3);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should use identity fn by default', () => {
+      let list = List.of(0, 1, 2, null, undefined, '', 3);
+      let actual = list.filter();
+      let expected = List.of(1, 2, 3);
+      assert.deepEqual(actual, expected);
+    });
+  });
+
   describe('#map()', () => {
     it('should return a new List', () => {
       let list = List.of(1, 2, 3);
