@@ -1,5 +1,7 @@
 "use strict";
 
+const identity = x => x;
+
 class List extends Array {
   get [Symbol.toStringTag]() {
     return 'List';
@@ -21,6 +23,17 @@ class List extends Array {
     let index = -1;
     while (++index < length) {
       list[index] = arguments[index];
+    }
+    return list;
+  }
+
+  map(transform = identity) {
+    let index = -1;
+    const length = this.length >>> 0;
+    const list = new List(length);
+    while (++index < length) {
+      const val = this[index];
+      list[index] = transform(val, index);
     }
     return list;
   }
