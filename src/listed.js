@@ -27,6 +27,18 @@ class List extends Array {
     return list;
   }
 
+  filter(predicate = identity) {
+    let index = -1;
+    const length = this.length >>> 0;
+    const list = new List();
+    while (++index < length) {
+      const val = this[index];
+      if (predicate(val))
+        list[list.length] = val;
+    }
+    return list;
+  }
+
   map(transform = identity) {
     let index = -1;
     const length = this.length >>> 0;
