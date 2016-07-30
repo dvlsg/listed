@@ -42,8 +42,8 @@ To run benchmarks of performance comparisons with other popular data manipulatio
 ### Links
 
 * List
-  * [.from()](.from)
-  * [.of()](.of)
+  * [.from()](#from)
+  * [.of()](#of)
   * [#filter()](#filter)
   * [#map()](#map)
 
