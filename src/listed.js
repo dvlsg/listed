@@ -39,13 +39,13 @@ class List extends Array {
     return list;
   }
 
-  map(transform = identity) {
+  map(transformer = identity) {
     let index = -1;
     const length = this.length >>> 0;
     const list = new List(length);
     while (++index < length) {
       const val = this[index];
-      list[index] = transform(val, index);
+      list[index] = transformer(val, index);
     }
     return list;
   }
