@@ -33,7 +33,7 @@ class List extends Array {
     const list = new List();
     while (++index < length) {
       const val = this[index];
-      if (predicate(val))
+      if (predicate(val, index))
         list[list.length] = val;
     }
     return list;
