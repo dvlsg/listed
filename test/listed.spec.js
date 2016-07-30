@@ -94,4 +94,28 @@ describe('List', () => {
     });
   });
 
+  describe('#map()', () => {
+    it('should return a new List', () => {
+      let list = List.of(1, 2, 3);
+      let mapped = list.map(x => x);
+      assert.notStrictEqual(list, mapped);
+      assert.deepEqual(list, mapped);
+      assert.instanceOf(mapped, List);
+    });
+
+    it('should accept a transformer', () => {
+      let list = List.of(1, 2, 3);
+      let actual = list.map(x => x + 1);
+      let expected = List.of(2, 3, 4);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should use identity fn as a default', () => {
+      let list = List.of(1, null, undefined, 4);
+      let actual = list.map();
+      let expected = List.of(1, null, undefined, 4);
+      assert.deepEqual(actual, expected);
+    });
+  });
+
 });
