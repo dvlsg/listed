@@ -155,6 +155,13 @@ describe('List', () => {
       assert.deepEqual(actual, expected);
     });
 
+    it('should provide List reference to the transformer', () => {
+      let list = List.of(1, 2, 3);
+      list.map((elem, index, listRef) => {
+        assert.strictEqual(list, listRef);
+      });
+    });
+
     it('should use identity fn as a default', () => {
       let list = List.of(1, null, undefined, 4);
       let actual = list.map();
