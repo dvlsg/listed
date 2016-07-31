@@ -117,6 +117,13 @@ describe('List', () => {
       assert.deepEqual(actual, expected);
     });
 
+    it('should provide List reference to the predicate', () => {
+      let list = List.of(1, 2, 3);
+      list.filter((elem, index, listRef) => {
+        assert.strictEqual(list, listRef);
+      });
+    });
+
     it('should use identity fn by default', () => {
       let list = List.of(0, 1, 2, null, undefined, '', 3);
       let actual = list.filter();
