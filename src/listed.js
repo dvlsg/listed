@@ -8,11 +8,18 @@ class List extends Array {
   }
 
   static from(arraylike) {
-    const length = arraylike.length >>> 0;
-    const list = new List(length);
-    let index = -1;
-    while (++index < length) {
-      list[index] = arraylike[index];
+    if (arraylike && typeof arraylike.length === 'number') {
+      const length = arraylike.length >>> 0;
+      const list = new List(length);
+      let index = -1;
+      while (++index < length) {
+        list[index] = arraylike[index];
+      }
+      return list;
+    }
+    const list = new List();
+    for (let elem of arraylike) {
+      list[list.length] = elem;
     }
     return list;
   }
