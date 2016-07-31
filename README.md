@@ -161,3 +161,46 @@ const mapped = List.map();
 //=> List [ 1, 2, 3 ]
 ```
 
+#### #reduce()
+
+```js
+reduce(reducer: Function, seed: Any)
+reduce(reducer: Function)
+```
+
+Reduces a `List` into a single value by iterating over and executing the provided `reducer` for each value, optionally starting with a given seed value.
+
+```js
+const list = List.of(2, 3, 4, 5);
+const reduced = List.reduce((accumulator, elem) => {
+  return accumulator + elem;
+}, 1);
+//=> 15 
+```
+
+If no seed value is provided, then the first element of the `List` will be used as the seed.
+
+```js
+const list = List.of(1, 2, 3, 4);
+const reduced = List.reduce((accumulator, elem) => accumulator + elem);
+//=> 10
+```
+
+The index of the element will be provided to the given reducer.
+
+```js
+const list = List.of(1, 2, 3, 4);
+const reduced = List.reduce((accumulator, elem, index) => {
+  return accumulator + index;
+}, 0);
+//=> 6
+```
+
+A reference to the original `List` will also be provided to the given reducer.
+
+```js
+const list = List.of(1, 2, 3, 4);
+const reduced = List.reduce((accumulator, elem, index, listRef) => {
+  console.log(list === listRef); //=> true
+});
+```
