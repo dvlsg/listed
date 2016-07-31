@@ -28,12 +28,12 @@ class List extends Array {
   }
 
   filter(predicate = identity) {
-    let index = -1;
     const length = this.length >>> 0;
     const list = new List();
+    let index = -1;
     while (++index < length) {
       const val = this[index];
-      if (predicate(val, index))
+      if (predicate(val, index, this))
         list[list.length] = val;
     }
     return list;
