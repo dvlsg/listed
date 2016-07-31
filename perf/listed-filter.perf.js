@@ -24,7 +24,7 @@ const iterableFilter = () => iterable.filter(predicate).toArray();
 const lazyFilter = () => lazy.filter(predicate).toArray();
 const ramdaFilter = () => ramda.filter(predicate, data);
 
-run('map', {
+run('filter', {
   'List#filter()': listFilter,
   'Array#filter()': arrayFilter,
   'Underscore.filter()': underscoreFilter,
