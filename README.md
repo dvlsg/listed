@@ -144,6 +144,15 @@ const mapped = List.map((elem, index) => elem + index);
 //=> List [ 1, 3, 5 ]
 ```
 
+A reference to the original `List` will also be provided to the given transformer.
+
+```js
+const list = List.of(1, 2, 3);
+const mapped = List.map((elem, index, listRef) => {
+  console.log(list === listRef); //=> true
+});
+```
+
 If no transformer is provided, then the identity function (`x => x`) will be used as a default.
 
 ```js
