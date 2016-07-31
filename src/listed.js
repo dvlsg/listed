@@ -40,12 +40,12 @@ class List extends Array {
   }
 
   map(transformer = identity) {
-    let index = -1;
     const length = this.length >>> 0;
     const list = new List(length);
+    let index = -1;
     while (++index < length) {
       const val = this[index];
-      list[index] = transformer(val, index);
+      list[index] = transformer(val, index, this);
     }
     return list;
   }
