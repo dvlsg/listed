@@ -97,12 +97,21 @@ const filtered = list.filter(elem => elem > 1);
 //=> List [ 2, 3 ]
 ```
 
-The index of the element will also be provided to the given predicate.
+The index of the element will be provided to the given predicate.
 
 ```js
 const list = List.of(1, 2, 3);
 const filtered = list.filter((elem, index) => index > 1);
 //=> List [ 3 ]
+```
+
+A reference to the original `List` will also be provided to the given predicate.
+
+```js
+const list = List.of(1, 2, 3);
+const filtered = list.filter((elem, index, listRef) => {
+  console.log(list === listRef); //=> true
+});
 ```
 
 If no predicate is provided, then the identity function (`x => x`) will be used as a default.
