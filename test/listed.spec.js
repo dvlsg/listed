@@ -73,6 +73,13 @@ describe('List', () => {
       let expected = List.of(1, 2, 3);
       assert.deepEqual(actual, expected);
     });
+
+    it('should accept an iterable argument', () => {
+      let map = new Map([ [ 1, 1 ], [ 2, 2 ], [ 3, 3 ] ]);
+      let actual = List.from(map);
+      let expected = List.of([ 1, 1 ], [ 2, 2 ], [ 3, 3 ]);
+      assert.deepEqual(actual, expected);
+    });
   });
 
   describe('.of()', () => {
