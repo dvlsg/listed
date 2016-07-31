@@ -49,6 +49,18 @@ class List extends Array {
     }
     return list;
   }
+
+  reduce(reducer, accumulator) {
+    const length = this.length >>> 0;
+    let index = -1;
+    if (accumulator === undefined) {
+      accumulator = this[++index];
+    }
+    while (++index < length) {
+      accumulator = reducer(accumulator, this[index], index, this);
+    }
+    return accumulator;
+  }
 }
 
 module.exports = {
