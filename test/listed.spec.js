@@ -170,4 +170,34 @@ describe('List', () => {
     });
   });
 
+  describe('#reduce', () => {
+    it('should reduce a List into a single value', () => {
+      let list = List.of(1, 2, 3, 4);
+      let actual = list.reduce((accumulator, elem) => accumulator + elem, 5);
+      let expected = 15;
+      assert.equal(actual, expected);
+    });
+
+    it('should optionally use the first value as a seed', () => {
+      let list = List.of(1, 2, 3, 4);
+      let actual = list.reduce((accumulator, elem) => accumulator + elem);
+      let expected = 10;
+      assert.equal(actual, expected);
+    });
+
+    it('should provide index to the reducer', () => {
+      let list = List.of(1, 2, 3, 4);
+      list.reduce((accumulator, elem, index) => {
+        assert.equal(elem, index + 1);
+      });
+    });
+
+    it('should provide List reference to the reducer', () => {
+      let list = List.of(1, 2, 3, 4);
+      list.reduce((accumulator, elem, index, listRef) => {
+        assert.strictEqual(list, listRef);
+      });
+    });
+  });
+
 });
