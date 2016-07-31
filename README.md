@@ -46,6 +46,7 @@ To run benchmarks of performance comparisons with other popular data manipulatio
   * [.of()](#of)
   * [#filter()](#filter)
   * [#map()](#map)
+  * [#reduce()](#reduce)
 
 ### List
 
