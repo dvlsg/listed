@@ -497,7 +497,7 @@ module.exports = [
   {"id":494,"first_name":"Mark","last_name":"Baker","color":"Aquamarine","purchase_date":"2016-06-18T03:03:06Z","value":8},
   {"id":495,"first_name":"Evelyn","last_name":"Robinson","color":"Teal","purchase_date":"2015-08-15T07:31:32Z","value":8},
   {"id":496,"first_name":"Carol","last_name":"Perez","color":"Aquamarine","purchase_date":"2016-06-10T03:39:28Z","value":4},
-  {"id":497,"first_name":"Paul","last_name":"Simmons","color":"Goldenrod","purchase_date":"2016-01-24T10:40:19Z","value":8},
+  {"id":497,"first_name":"Paul","last_name":"Simmons","color":"Goldenrod","purchase_date":"2016-10-13T11:32:23Z","value":8},
   {"id":498,"first_name":"Ernest","last_name":"Collins","color":"Goldenrod","purchase_date":"2016-01-23T12:23:26Z","value":6},
   {"id":499,"first_name":"Sarah","last_name":"Anderson","color":"Green","purchase_date":"2016-04-29T14:53:40Z","value":5},
   {"id":500,"first_name":"Carlos","last_name":"Bell","color":"Purple","purchase_date":"2015-08-18T17:53:47Z","value":7},
