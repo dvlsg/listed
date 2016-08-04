@@ -40,8 +40,9 @@ class List extends Array {
     let index = -1;
     while (++index < length) {
       const val = this[index];
-      if (predicate(val, index, this))
+      if (predicate(val, index, this)) {
         list[list.length] = val;
+      }
     }
     return list;
   }

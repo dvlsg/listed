@@ -18,8 +18,9 @@ const srcGlob = `${srcDir}/**/*.js`;
 
 const glob = (path, options = {}) => new Promise((resolve, reject) => {
   return _glob(path, options, (err, data) => {
-    if (err)
+    if (err) {
       return reject(err);
+    }
     return resolve(data);
   });
 });
