@@ -101,6 +101,43 @@ describe('List', () => {
     });
   });
 
+  describe('#every()', () => {
+    it('should return true when all elements pass a given predicate', () => {
+      let list = List.of(1, 2, 3);
+      let every = list.every(x => typeof x === 'number');
+      assert.isTrue(every);
+    });
+
+    it('should return false when one element fails a given predicate', () => {
+      let list = List.of(1, 2, '3');
+      let every = list.every(x => typeof x === 'number');
+      assert.isFalse(every);
+    });
+
+    it('should provide index to the predicate', () => {
+      let list = List.of(1, 2, 3);
+      list.every((elem, index) => {
+        assert.strictEqual(elem, index + 1);
+      });
+    });
+
+    it('should provide List reference to the predicate', () => {
+      let list = List.of(1, 2, 3);
+      list.every((elem, index, listRef) => {
+        assert.strictEqual(list, listRef);
+      });
+    });
+
+    it('should use identity fn as default predicate', () => {
+      let list = List.of(1, 2, 3);
+      let every = list.every();
+      assert.isTrue(every);
+      list.push(null);
+      every = list.every();
+      assert.isFalse(every);
+    });
+  });
+
   describe('#filter()', () => {
     it('should return a new List', () => {
       let list = List.of(1, 2, 3);
