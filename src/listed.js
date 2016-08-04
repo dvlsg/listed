@@ -34,6 +34,18 @@ class List extends Array {
     return list;
   }
 
+  every(predicate = identity) {
+    const length = this.length >>> 0;
+    let index = -1;
+    while (++index < length) {
+      const val = this[index];
+      if (!predicate(val, index, this)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   filter(predicate = identity) {
     const length = this.length >>> 0;
     const list = new List();
