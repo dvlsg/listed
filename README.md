@@ -44,6 +44,7 @@ To run benchmarks of performance comparisons with other popular data manipulatio
 * List
   * [.from()](#from)
   * [.of()](#of)
+  * [#every()](#every)
   * [#filter()](#filter)
   * [#map()](#map)
   * [#reduce()](#reduce)
@@ -81,6 +82,29 @@ Note that this will work even with a single `Number` argument,whereas `new List(
 ```js
 const list = List.of(1);
 //=> List [ 1 ]
+```
+
+#### #every()
+
+```
+List#every :: List a ~> (a -> Boolean) -> Boolean
+List#every :: List a ~> () -> Boolean
+```
+
+Returns a `Boolean` indicating whether or not every value passes a given predicate. The index of the element, and a reference to the original `List` will also be provided to the predicate.
+
+```js
+const list = List.of(1, 2, 3);
+const passed = list.every(x => typeof x === 'number');
+//=> true
+```
+
+If no predicate is provided, then the identity function will be used as a default.
+
+```js
+const list = List.of(0, 1, 2, 3);
+const passed = list.every();
+//=> false
 ```
 
 #### #filter()
