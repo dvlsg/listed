@@ -101,6 +101,33 @@ describe('List', () => {
     });
   });
 
+  describe('#concat()', () => {
+    it('should return a new List', () => {
+      let list = List.of(1, 2, 3);
+      let concat = list.concat();
+      assert.notStrictEqual(list, concat);
+      assert.instanceOf(concat, List);
+    });
+
+    it('should concatenate two lists', () => {
+      let list1 = List.of(1, 2);
+      let list2 = List.of(3, 4);
+      let actual = list1.concat(list2);
+      let expected = List.of(1, 2, 3, 4);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should concatenate multiple lists', () => {
+      let list1 = List.of(1, 2);
+      let list2 = List.of(3, 4);
+      let list3 = List.of(5, 6);
+      let list4 = List.of(7, 8);
+      let actual = list1.concat(list2, list3, list4);
+      let expected = List.of(1, 2, 3, 4, 5, 6, 7, 8);
+      assert.deepEqual(actual, expected);
+    });
+  });
+
   describe('#every()', () => {
     it('should return true when all elements pass a given predicate', () => {
       let list = List.of(1, 2, 3);
