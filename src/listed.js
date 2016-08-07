@@ -1,6 +1,7 @@
 "use strict";
 
 const identity = x => x;
+const arrayConcat = Array.prototype.concat;
 
 class List extends Array {
   get [Symbol.toStringTag]() {
@@ -32,6 +33,15 @@ class List extends Array {
       list[index] = arguments[index];
     }
     return list;
+  }
+
+  concat() {
+    // array concat is the fastest of compared operations.
+    // even with the List overhead, this still tops benchmarks
+    // (other than native array concat)
+    // note that proper array subclass concat should be
+    // readily available when node 7.0.0 is released.
+    return List.from(arrayConcat.apply(this, arguments));
   }
 
   every(predicate = identity) {
