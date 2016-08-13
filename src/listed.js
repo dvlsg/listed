@@ -97,6 +97,10 @@ class List extends Array {
     }
     return accumulator;
   }
+
+  resolve() {
+    return ListPromise.all(this).then(List.from);
+  }
 }
 
 // the method in "value" may not be completely optimized,
