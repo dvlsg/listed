@@ -241,7 +241,7 @@ describe('List', () => {
     });
   });
 
-  describe('#reduce', () => {
+  describe('#reduce()', () => {
     it('should reduce a List into a single value', () => {
       let list = List.of(1, 2, 3, 4);
       let actual = list.reduce((accumulator, elem) => accumulator + elem, 5);
