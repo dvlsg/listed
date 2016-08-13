@@ -48,6 +48,7 @@ To run benchmarks of performance comparisons with other popular data manipulatio
   * [#filter()](#filter)
   * [#map()](#map)
   * [#reduce()](#reduce)
+  * [#resolve()](#resolve)
 
 ### List
 
@@ -229,3 +230,19 @@ const reduced = List.reduce((accumulator, elem, index, listRef) => {
   console.log(list === listRef); //=> true
 });
 ```
+
+#### #resolve()
+
+```
+List#resolve :: List<Promise<T> | T> ~> () -> Promise<List<T>>
+```
+
+A helper method for resolving a List of promises or values down into a List of values wrapped in a single promise.
+
+```js
+const list = List.of(1, Promise.resolve(2), 3);
+const resolved = await list.resolve();
+//=> List [ 1, 2, 3 ]
+```
+
+Calling this method is the equivalent of calling `Promise.all(list).then(List.from)`.
