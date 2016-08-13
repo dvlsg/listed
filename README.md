@@ -188,9 +188,9 @@ const mapped = List.map();
 
 #### #reduce()
 
-```js
-reduce(reducer: Function, seed: Any)
-reduce(reducer: Function)
+```
+List#reduce :: List<T> ~> ((U, T, Number, List<T>) -> U, U) -> U
+List#reduce :: List<T> ~> ((U, T, Number, List<T>) -> U) -> U
 ```
 
 Reduces a `List` into a single value by iterating over and executing the provided `reducer` for each value, optionally starting with a given seed value.
