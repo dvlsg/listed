@@ -47,6 +47,7 @@ To run benchmarks of performance comparisons with other popular data manipulatio
   * [#every()](#every)
   * [#filter()](#filter)
   * [#map()](#map)
+  * [#mapAsync()](#mapasync)
   * [#reduce()](#reduce)
   * [#resolve()](#resolve)
 
@@ -185,6 +186,34 @@ If no transformer is provided, then the identity function (`x => x`) will be use
 const list = List.of(1, 2, 3);
 const mapped = List.map();
 //=> List [ 1, 2, 3 ]
+```
+
+#### #mapAsync()
+
+```
+List#mapAsync :: List<T> ~> (T -> Promise<T> | T) -> Promise<List<T>>
+```
+
+Asynchronously maps a `List` into a new `List` by using a provided asynchronous `mapper`. All mapping will be executed in *parallel*.
+
+```js
+const list = List.of('/users.json', '/tasks.json');
+const mapped = await list.mapAsync(async elem => {
+  const response = await fetch(elem);
+  const json = await response.json();
+  return json;
+});
+//=> List [ <users_json_data>, <tasks_json_data> ]
+```
+
+Note that even though `mapAsync()` returns a promise, you can still chain multiple `List` methods, including additional asynchronous calls.
+
+```js
+const list = List.of('/users.json', '/tasks.json');
+const mapped = await list
+  .mapAsync(fetch)
+  .mapAsync(res => res.json());
+//=> List [ <users_json_data>, <tasks_json_data> ]
 ```
 
 #### #reduce()
