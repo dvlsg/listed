@@ -3,6 +3,12 @@
 const identity = x => x;
 const arrayConcat = Array.prototype.concat;
 
+class ListPromise extends Promise {
+  get [Symbol.toStringTag]() {
+    return 'ListPromise';
+  }
+}
+
 class List extends Array {
   get [Symbol.toStringTag]() {
     return 'List';
@@ -93,7 +99,27 @@ class List extends Array {
   }
 }
 
+// the method in "value" may not be completely optimized,
+// since we're using spread operators,
+// but this is simpler to maintain during development.
+// consider a refactor once we're done.
+Object.defineProperties(
+  ListPromise.prototype,
+  Object
+    .getOwnPropertyNames(List.prototype)
+    .filter(x => x !== 'constructor')
+    .filter(x => typeof List.prototype[x] === 'function')
+    .reduce((definitions, key) => {
+      const value = function(...args) {
+        return this.then(list => list[key](...args));
+      };
+      definitions[key] = { value };
+      return definitions;
+    }, {})
+);
+
 module.exports = {
   List,
+  ListPromise,
   default: List
 };
