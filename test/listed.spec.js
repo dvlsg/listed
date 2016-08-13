@@ -1,6 +1,7 @@
 "use strict";
 
-const { List } = require('../');
+const { List, ListPromise } = require('../');
+const co = require('co');
 const { assert } = require('chai');
 
 describe('List', () => {
@@ -269,6 +270,39 @@ describe('List', () => {
         assert.strictEqual(list, listRef);
       });
     });
+  });
+
+  describe('#resolve()', () => {
+    it('should return ListPromise<List>', () => co(function*() {
+      let list = List.of(1, 2, 3);
+      let resolving = list.resolve();
+      assert.instanceOf(resolving, ListPromise);
+      let resolved = yield resolving;
+      assert.instanceOf(resolved, List);
+      assert.deepEqual(resolved, List.of(1, 2, 3));
+    }));
+
+    it('should resolve a List of promises', () => co(function*() {
+      let list = List.of(
+        Promise.resolve(1),
+        Promise.resolve(2),
+        Promise.resolve(3)
+      );
+      let actual = yield list.resolve();
+      let expected = List.of(1, 2, 3);
+      assert.deepEqual(actual, expected);
+    }));
+
+    it('should resolve a List of mixed values', () => co(function*() {
+      let list = List.of(
+        1,
+        Promise.resolve(2),
+        3
+      );
+      let actual = yield list.resolve();
+      let expected = List.of(1, 2, 3);
+      assert.deepEqual(actual, expected);
+    }));
   });
 
 });
