@@ -4,6 +4,10 @@ const { List, ListPromise } = require('../');
 const co = require('co');
 const { assert } = require('chai');
 
+const sleep = (delay = 0) => new Promise((resolve) => {
+  setTimeout(resolve, delay);
+});
+
 describe('List', () => {
 
   describe('constructor', () => {
@@ -240,6 +244,64 @@ describe('List', () => {
       let expected = List.of(1, null, undefined, 4);
       assert.deepEqual(actual, expected);
     });
+  });
+
+  describe('#mapAsync()', () => {
+    it('should return a ListPromise<List>', () => co(function*() {
+      let list = List.of(1, 2, 3);
+      let promise = list.mapAsync(x => x);
+      assert.instanceOf(promise, ListPromise);
+      let mapped = yield promise;
+      assert.notStrictEqual(list, mapped);
+      assert.deepEqual(list, mapped);
+      assert.instanceOf(mapped, List);
+    }));
+
+    it('should accept an async mapper', () => co(function*() {
+      let list = List.of(1, 2, 3);
+      let mapperAsync = (elem) => co(function*() {
+        yield sleep(5);
+        return elem + 1;
+      });
+      let actual = yield list.mapAsync(mapperAsync);
+      let expected = List.of(2, 3, 4);
+      assert.deepEqual(actual, expected);
+    }));
+
+    it('should work with a sync mapper', () => co(function*() {
+      let list = List.of(1, 2, 3);
+      let actual = yield list.mapAsync(x => x + 1);
+      let expected = List.of(2, 3, 4);
+      assert.deepEqual(actual, expected);
+    }));
+
+    it('should be chainable', () => co(function*() {
+      let list = List.of(1, 2, 3);
+      let mapperAsync = (elem) => co(function*() {
+        yield sleep(1);
+        return elem + 1;
+      });
+      let actual = yield list
+        .mapAsync(mapperAsync)
+        .mapAsync(mapperAsync);
+      let expected = List.of(3, 4, 5);
+      assert.deepEqual(actual, expected);
+    }));
+
+    it('should map in parallel', () => co(function*() {
+      let list = List.of(1, 2, 3);
+      let running = 0;
+      let mapperAsync = (elem) => co(function*() {
+        running += 1;
+        yield sleep();
+        running -= 1;
+        return elem + 1;
+      });
+      let mapping = list.mapAsync(mapperAsync);
+      assert.strictEqual(running, list.length);
+      yield mapping;
+      assert.strictEqual(running, 0);
+    }));
   });
 
   describe('#reduce()', () => {
