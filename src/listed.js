@@ -1,5 +1,7 @@
 "use strict";
 
+const co = require('co');
+
 const identity = x => x;
 const arrayConcat = Array.prototype.concat;
 
@@ -84,6 +86,20 @@ class List extends Array {
       list[index] = transformer(val, index, this);
     }
     return list;
+  }
+
+  mapAsync(transformer = identity) {
+    const self = this;
+    return ListPromise.resolve(co(function*() {
+      const length = self.length >>> 0;
+      const list = new List(length);
+      let index = -1;
+      while (++index < length) {
+        const val = self[index];
+        list[index] = transformer(val, index, self);
+      }
+      return yield list.resolve();
+    }));
   }
 
   reduce(reducer, accumulator) {
