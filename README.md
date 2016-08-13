@@ -77,7 +77,7 @@ const list = List.of(1, 2, 3);
 //=> List [ 1, 2, 3 ]
 ```
 
-Note that this will work even with a single `Number` argument,whereas `new List(number)` will create a `List` with the length of that argument.
+Note that this will work even with a single `Number` argument, whereas `new List(number)` will create a `List` with the length of that argument.
 
 ```js
 const list = List.of(1);
