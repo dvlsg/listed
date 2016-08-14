@@ -102,6 +102,55 @@ class List extends Array {
     }));
   }
 
+  mapLimit(transformer = identity, limit = 1) {
+    const self = this;
+    return new ListPromise((resolve, reject) => {
+      const length = self.length >>> 0;
+      const list = new List(length);
+      let running = 0;
+      let index = -1;
+      let completed = 0;
+
+      function finished() {
+        running -= 1;
+        completed += 1;
+        if (completed === length) {
+          // at this point, we have a List<Promise>, which needs to be translated through Promise.all
+          // list.resolve() is a method which should help with this.
+          return resolve(list.resolve());
+        }
+        return iterate(); // eslint-disable-line no-use-before-define
+      }
+
+      function next() {
+        index += 1;
+        const val = self[index];
+        running += 1;
+        let transforming = transformer(val, index, self);
+        if (!(transforming instanceof Promise)) {
+          transforming = Promise.resolve(transforming);
+        }
+
+        // make sure to put the original resolution back in the list
+        list[index] = transforming;
+
+        // but also attach post-processing methods,
+        // including catching and rejecting the original Promise
+        transforming
+          .then(finished)
+          .catch(reject);
+      }
+
+      function iterate() {
+        while (running < limit && index < length - 1) {
+          next(); // eslint-disable-line callback-return
+        }
+      }
+
+      iterate();
+    });
+  }
+
   mapSeries(transformer = identity) {
     const self = this;
     return ListPromise.resolve(co(function*() {
