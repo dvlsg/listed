@@ -304,6 +304,87 @@ describe('List', () => {
     }));
   });
 
+  describe('#mapLimit()', () => {
+
+    let mapperAsync = (elem) => co(function*() {
+      yield sleep(1);
+      return elem + 1;
+    });
+
+    it('should return a ListPromise<List>', () => co(function*() {
+      let list = List.of(1, 2, 3);
+      let promise = list.mapLimit(x => x, 1);
+      assert.instanceOf(promise, ListPromise);
+      let mapped = yield promise;
+      assert.notStrictEqual(list, mapped);
+      assert.deepEqual(list, mapped);
+      assert.instanceOf(mapped, List);
+    }));
+
+    it('should accept an async mapper', () => co(function*() {
+      let list = List.of(1, 2, 3);
+      let actual = yield list.mapSeries(mapperAsync, 2);
+      let expected = List.of(2, 3, 4);
+      assert.deepEqual(actual, expected);
+    }));
+
+    it('should work with a sync mapper', () => co(function*() {
+      let list = List.of(1, 2, 3);
+      let actual = yield list.mapLimit(x => x + 1, 1);
+      let expected = List.of(2, 3, 4);
+      assert.deepEqual(actual, expected);
+    }));
+
+    it('should use 1 as a default limit', () => co(function*() {
+      let list = List.of(1, 2, 3);
+      let actual = yield list.mapLimit(mapperAsync);
+      let expected = List.of(2, 3, 4);
+      assert.deepEqual(actual, expected);
+    }));
+
+    it('should run limit of mappers in parallel', () => co(function*() {
+      let list = List.of(1, 2, 3, 4, 5, 6, 7);
+      let running = 0;
+      let limit = 3;
+      let mapper = (elem, index) => co(function*() {
+        running += 1;
+        assert.isAtMost(running, limit);
+        let timeout = 100 - index * 10;
+        yield sleep(timeout);
+        running -= 1;
+        assert.isAtLeast(running, 0);
+        return elem + 1;
+      });
+
+      let resolving = list.mapLimit(mapper, limit);
+      assert.strictEqual(running, 3);
+      let actual = yield resolving;
+      let expected = List.of(2, 3, 4, 5, 6, 7, 8);
+      assert.deepEqual(actual, expected);
+    }));
+
+    it('should propagate errors from mapper', () => co(function*() {
+      let list = List.of(1, 2, 3);
+      let errorMessage = 'TEST_ERROR';
+      let mapper = (elem, index) => co(function*() {
+        if (index === 1) {
+          throw new Error(errorMessage);
+        }
+        return elem + 1;
+      });
+      let error = null;
+      try {
+        yield list.mapLimit(mapper);
+      }
+      catch (e) {
+        error = e;
+      }
+      assert.isOk(error);
+      assert.instanceOf(error, Error);
+      assert.strictEqual(error.message, errorMessage);
+    }));
+  });
+
   describe('#mapSeries()', () => {
 
     let mapperAsync = (elem) => co(function*() {
