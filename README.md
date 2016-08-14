@@ -48,6 +48,7 @@ To run benchmarks of performance comparisons with other popular data manipulatio
   * [#filter()](#filter)
   * [#map()](#map)
   * [#mapAsync()](#mapasync)
+  * [#mapLimit()](#maplimit)
   * [#mapSeries()](#mapseries)
   * [#reduce()](#reduce)
   * [#resolve()](#resolve)
@@ -215,6 +216,27 @@ const mapped = await list
   .mapAsync(fetch)
   .mapAsync(res => res.json());
 //=> List [ <users_json_data>, <tasks_json_data> ]
+```
+
+#### mapLimit()
+
+```
+List#mapLimit :: List<T> ~> (T -> Promise<T> | T, Number) -> Promise<List<T>>
+```
+
+Asynchronously maps a `List` into a new `List` by using a provided asynchronous `mapper`. Similar to `List#mapAsync()`, but only the provided `limit` of mappers can be run in parallel. If the given `limit` of mappers are already running, but we have not reached the end of the `List`, then any following mappers will be queued up to begin whenever a previous mapper completes.
+
+For example, the following code will collect `users` and `tasks` data in parallel, but `products` collection will not begin until one of either `users` or `tasks` has completed.
+
+```js
+const list = List.of('/users.json', '/tasks.json', '/products.json');
+const limit = 2;
+const mapped = await list.mapLimit(async elem => {
+  const response = await fetch(elem);
+  const json = await response.json();
+  return json;
+}, limit);
+//=> List [ <users_json_data>, <tasks_json_data>, <products_json_data> ]
 ```
 
 #### mapSeries()
