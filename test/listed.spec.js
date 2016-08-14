@@ -304,6 +304,64 @@ describe('List', () => {
     }));
   });
 
+  describe('#mapSeries()', () => {
+
+    let mapperAsync = (elem) => co(function*() {
+      yield sleep(1);
+      return elem + 1;
+    });
+
+    it('should return a ListPromise<List>', () => co(function*() {
+      let list = List.of(1, 2, 3);
+      let promise = list.mapSeries(x => x);
+      assert.instanceOf(promise, ListPromise);
+      let mapped = yield promise;
+      assert.notStrictEqual(list, mapped);
+      assert.deepEqual(list, mapped);
+      assert.instanceOf(mapped, List);
+    }));
+
+    it('should accept an async mapper', () => co(function*() {
+      let list = List.of(1, 2, 3);
+      let actual = yield list.mapSeries(mapperAsync);
+      let expected = List.of(2, 3, 4);
+      assert.deepEqual(actual, expected);
+    }));
+
+    it('should work with a sync mapper', () => co(function*() {
+      let list = List.of(1, 2, 3);
+      let actual = yield list.mapSeries(x => x + 1);
+      let expected = List.of(2, 3, 4);
+      assert.deepEqual(actual, expected);
+    }));
+
+    it('should be chainable', () => co(function*() {
+      let list = List.of(1, 2, 3);
+      let actual = yield list
+        .mapSeries(mapperAsync)
+        .mapSeries(mapperAsync);
+      let expected = List.of(3, 4, 5);
+      assert.deepEqual(actual, expected);
+    }));
+
+    it('should map in series', () => co(function*() {
+      let list = List.of(1, 2, 3);
+      let running = 0;
+      let mapper = (elem) => co(function*() {
+        running += 1;
+        assert.strictEqual(running, 1);
+        yield sleep();
+        running -= 1;
+        assert.strictEqual(running, 0);
+        return elem + 1;
+      });
+      let mapping = list.mapSeries(mapper);
+      assert.strictEqual(running, 1);
+      yield mapping;
+      assert.strictEqual(running, 0);
+    }));
+  });
+
   describe('#reduce()', () => {
     it('should reduce a List into a single value', () => {
       let list = List.of(1, 2, 3, 4);
