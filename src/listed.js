@@ -102,6 +102,23 @@ class List extends Array {
     }));
   }
 
+  mapSeries(transformer = identity) {
+    const self = this;
+    return ListPromise.resolve(co(function*() {
+      const length = self.length;
+      const list = new List(length);
+      let index = -1;
+      while (++index < length) {
+        const val = self[index];
+        const transforming = transformer(val, index, self);
+        list[index] = transforming instanceof Promise
+          ? yield transforming
+          : transforming;
+      }
+      return list;
+    }));
+  }
+
   reduce(reducer, accumulator) {
     const length = this.length >>> 0;
     let index = -1;
