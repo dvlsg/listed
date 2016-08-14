@@ -48,6 +48,7 @@ To run benchmarks of performance comparisons with other popular data manipulatio
   * [#filter()](#filter)
   * [#map()](#map)
   * [#mapAsync()](#mapasync)
+  * [#mapSeries()](#mapseries)
   * [#reduce()](#reduce)
   * [#resolve()](#resolve)
 
@@ -213,6 +214,24 @@ const list = List.of('/users.json', '/tasks.json');
 const mapped = await list
   .mapAsync(fetch)
   .mapAsync(res => res.json());
+//=> List [ <users_json_data>, <tasks_json_data> ]
+```
+
+#### mapSeries()
+
+```
+List#mapSeries :: List<T> ~> (T -> Promise<T> | T) -> Promise<List<T>>
+```
+
+Asynchronously maps a `List` into a new List` by using a provided asynchronous `mapper`. This is similar to `List#mapAsync()`, but all asynchronous mapping will be executed in *series*, instead of in parallel.
+
+```js
+const list = List.of('/users.json', '/tasks.json');
+const mapped = await list.mapSeries(async elem => {
+  const response = await fetch(elem);
+  const json = await response.json();
+  return json;
+});
 //=> List [ <users_json_data>, <tasks_json_data> ]
 ```
 
