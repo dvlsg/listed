@@ -1,6 +1,7 @@
 "use strict";
 
 const co = require('co');
+const parseComparers = require('./helpers/parse-comparers');
 
 const identity = x => x;
 const arrayConcat = Array.prototype.concat;
@@ -166,6 +167,30 @@ class List extends Array {
       }
       return list;
     }));
+  }
+
+  orderBy(...args) {
+    const comparer = parseComparers(...args);
+    const length = this.length;
+    const result = new List(length);
+
+    // lift value/index into wrapper,
+    // since index will not be provided by native Array#sort()
+    let index = length;
+    while (index--) {
+      result[index] = { value: this[index], index };
+    }
+
+    // use native sort (seems performant)
+    result.sort(comparer);
+
+    // unwrap the values after the comparisons.
+    index = length;
+    while (index--) {
+      result[index] = result[index].value;
+    }
+
+    return result;
   }
 
   reduce(reducer, accumulator) {
