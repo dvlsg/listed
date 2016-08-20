@@ -50,6 +50,7 @@ To run benchmarks of performance comparisons with other popular data manipulatio
   * [#mapAsync()](#mapasync)
   * [#mapLimit()](#maplimit)
   * [#mapSeries()](#mapseries)
+  * [#orderBy()](#orderby)
   * [#reduce()](#reduce)
   * [#resolve()](#resolve)
 
@@ -255,6 +256,58 @@ const mapped = await list.mapSeries(async elem => {
   return json;
 });
 //=> List [ <users_json_data>, <tasks_json_data> ]
+```
+
+#### #orderBy()
+
+```
+List#orderBy :: List<T> ~> (...Selector[]) -> List<T>
+Selector :: String | Function | Array<String, Number> | Array<Function, Number>
+```
+
+Returns a new `List`, ordered by using a *stable* sort built from the provided selector definitions.
+
+```js
+let unordered = new List(
+  { id: 1, name: 'bob', data: 123 },
+  { id: 2, name: 'bob', data: 422 },
+  { id: 3, name: 'jim', data: 421 },
+  { id: 4, name: 'bob', data: 321 },
+  { id: 5, name: 'jim', data: 421 },
+  { id: 6, name: 'jim', data: 123 },
+  { id: 7, name: 'bob', data: 421 },
+  { id: 8, name: 'jim', data: 123 }
+);
+let ordered = unordered.orderBy('name', 'data');
+/*=> List [
+  { id: 1, name: 'bob', data: 123 },
+  { id: 4, name: 'bob', data: 321 },
+  { id: 7, name: 'bob', data: 421 },
+  { id: 2, name: 'bob', data: 422 },
+  { id: 6, name: 'jim', data: 123 },
+  { id: 8, name: 'jim', data: 123 },
+  { id: 3, name: 'jim', data: 421 },
+  { id: 5, name: 'jim', data: 421 }
+] */
+```
+
+Selectors can be provided as strings, functions, or arrays containing a string or function and direction.
+
+If a selector is provided as a string, it will use the equivalent of `x => x[string]`.
+
+If a selector is provided as a function, it will be used as is.
+
+If provided as an array, it will use the first element as the selector, and the second element as the sort direction.
+
+Note that in the case of providing a selector as a string, you may also prepend a `'-'` to the beginning of the string to indicate that you wish to use a descending sort for that selector.
+
+For example, the following are all functionally equivalent, and `List#orderBy` will sort first by name ascending, then by data descending.
+
+```js
+list.orderBy('name', '-data');
+list.orderBy(x => x.name, [ x => x.data, -1 ]);
+list.orderBy('name', x => x.data * -1);
+list.orderBy([ 'name', 1 ], [ 'data', -1 ]);
 ```
 
 #### #reduce()
