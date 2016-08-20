@@ -443,6 +443,123 @@ describe('List', () => {
     }));
   });
 
+  describe('#orderBy()', () => {
+
+    let unsorted = new List(
+      { id: 1, name: 'bob', data: 123 },
+      { id: 2, name: 'bob', data: 422 },
+      { id: 3, name: 'jim', data: 421 },
+      { id: 4, name: 'bob', data: 321 },
+      { id: 5, name: 'jim', data: 421 },
+      { id: 6, name: 'jim', data: 123 },
+      { id: 7, name: 'bob', data: 421 },
+      { id: 8, name: 'jim', data: 123 }
+    );
+
+    it('should not modify the original list', () => {
+      let sorted = unsorted.orderBy(x => x.data * -1);
+      assert.isTrue(unsorted !== sorted);
+      assert.isTrue(unsorted[0].id !== sorted[0].id);
+    });
+
+    it('should accept string arguments', () => {
+      let actual = unsorted.orderBy('name', 'data');
+      let expected = new List(
+        { id: 1, name: 'bob', data: 123 },
+        { id: 4, name: 'bob', data: 321 },
+        { id: 7, name: 'bob', data: 421 },
+        { id: 2, name: 'bob', data: 422 },
+        { id: 6, name: 'jim', data: 123 },
+        { id: 8, name: 'jim', data: 123 },
+        { id: 3, name: 'jim', data: 421 },
+        { id: 5, name: 'jim', data: 421 }
+      );
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should sort descending with -string argument', () => {
+      let actual = unsorted.orderBy('-name', 'data');
+      let expected = new List(
+        { id: 6, name: 'jim', data: 123 },
+        { id: 8, name: 'jim', data: 123 },
+        { id: 3, name: 'jim', data: 421 },
+        { id: 5, name: 'jim', data: 421 },
+        { id: 1, name: 'bob', data: 123 },
+        { id: 4, name: 'bob', data: 321 },
+        { id: 7, name: 'bob', data: 421 },
+        { id: 2, name: 'bob', data: 422 }
+      );
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should accept function selector arguments', () => {
+      let actual = unsorted.orderBy(x => x.name, x => x.data * -1);
+      let expected = new List(
+        { id: 2, name: 'bob', data: 422 },
+        { id: 7, name: 'bob', data: 421 },
+        { id: 4, name: 'bob', data: 321 },
+        { id: 1, name: 'bob', data: 123 },
+        { id: 3, name: 'jim', data: 421 },
+        { id: 5, name: 'jim', data: 421 },
+        { id: 6, name: 'jim', data: 123 },
+        { id: 8, name: 'jim', data: 123 }
+      );
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should accept array arguments as [ selector, direction ]', () => {
+      let actual = unsorted.orderBy(
+        [ 'name', -1 ],
+        [ x => x.data, -1 ]
+      );
+      let expected = new List(
+        { id: 3, name: 'jim', data: 421 },
+        { id: 5, name: 'jim', data: 421 },
+        { id: 6, name: 'jim', data: 123 },
+        { id: 8, name: 'jim', data: 123 },
+        { id: 2, name: 'bob', data: 422 },
+        { id: 7, name: 'bob', data: 421 },
+        { id: 4, name: 'bob', data: 321 },
+        { id: 1, name: 'bob', data: 123 }
+      );
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should accept mixtures of argument types', () => {
+      let actual = unsorted.orderBy(
+        '-name',
+        x => x.data,
+        [ 'id', -1 ]
+      );
+      let expected = new List(
+        { id: 8, name: 'jim', data: 123 },
+        { id: 6, name: 'jim', data: 123 },
+        { id: 5, name: 'jim', data: 421 },
+        { id: 3, name: 'jim', data: 421 },
+        { id: 1, name: 'bob', data: 123 },
+        { id: 4, name: 'bob', data: 321 },
+        { id: 7, name: 'bob', data: 421 },
+        { id: 2, name: 'bob', data: 422 }
+      );
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should not sort when no arguments are provided', () => {
+      let actual = unsorted.orderBy();
+      let expected = new List(
+        { id: 1, name: 'bob', data: 123 },
+        { id: 2, name: 'bob', data: 422 },
+        { id: 3, name: 'jim', data: 421 },
+        { id: 4, name: 'bob', data: 321 },
+        { id: 5, name: 'jim', data: 421 },
+        { id: 6, name: 'jim', data: 123 },
+        { id: 7, name: 'bob', data: 421 },
+        { id: 8, name: 'jim', data: 123 }
+      );
+      assert.deepEqual(actual, expected);
+    });
+  });
+
   describe('#reduce()', () => {
     it('should reduce a List into a single value', () => {
       let list = List.of(1, 2, 3, 4);
