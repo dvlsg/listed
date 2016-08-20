@@ -20,6 +20,7 @@
   "homepage": "https://github.com/dvlsg/listed#readme",
   "devDependencies": {
     "benchmark": "^2.1.1",
+    "benchr": "^3.1.0",
     "chai": "^3.5.0",
     "co": "^4.6.0",
     "eslint": "^3.1.1",
