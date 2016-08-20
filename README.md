@@ -218,7 +218,7 @@ const mapped = await list
 //=> List [ <users_json_data>, <tasks_json_data> ]
 ```
 
-#### mapLimit()
+#### #mapLimit()
 
 ```
 List#mapLimit :: List<T> ~> (T -> Promise<T> | T, Number) -> Promise<List<T>>
@@ -239,7 +239,7 @@ const mapped = await list.mapLimit(async elem => {
 //=> List [ <users_json_data>, <tasks_json_data>, <products_json_data> ]
 ```
 
-#### mapSeries()
+#### #mapSeries()
 
 ```
 List#mapSeries :: List<T> ~> (T -> Promise<T> | T) -> Promise<List<T>>
