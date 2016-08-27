@@ -208,6 +208,36 @@ describe('List', () => {
     });
   });
 
+  describe('#flatten()', () => {
+    it('should return a new List', () => {
+      let list = new List();
+      let flat = list.flatten();
+      assert.notStrictEqual(list, flat);
+      assert.instanceOf(flat, List);
+    });
+
+    it('should flatten nested lists', () => {
+      let list = new List(1, 2, new List(3, 4, 5));
+      let actual = list.flatten();
+      let expected = new List(1, 2, 3, 4, 5);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should work with arrays', () => {
+      let list = new List(1, 2, [ 3, 4, 5 ]);
+      let actual = list.flatten();
+      let expected = new List(1, 2, 3, 4, 5);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should only flatten one level by default', () => {
+      let list = new List(1, [ 2, 3, [ 4, 5 ] ]);
+      let actual = list.flatten();
+      let expected = new List(1, 2, 3, [ 4, 5 ]);
+      assert.deepEqual(actual, expected);
+    });
+  });
+
   describe('#map()', () => {
     it('should return a new List', () => {
       let list = List.of(1, 2, 3);
