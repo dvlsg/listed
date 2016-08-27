@@ -653,6 +653,43 @@ describe('List', () => {
     }));
   });
 
+  describe('#reversed()', () => {
+    it('should return a new List', () => {
+      let list = new List();
+      let reversed = list.reversed();
+      assert.notStrictEqual(list, reversed);
+      assert.instanceOf(reversed, List);
+    });
+
+    it('should return a reversed copy', () => {
+      let list = List.of(1, 2, 3, 4);
+      let actual = list.reversed();
+      let expected = List.of(4, 3, 2, 1);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should not modify the original', () => {
+      let actual = List.of(1, 2, 3, 4);
+      actual.reversed();
+      let expected = List.of(1, 2, 3, 4);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should work with empty lists', () => {
+      let list = new List();
+      let actual = list.reversed();
+      let expected = new List();
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should work with single item lists', () => {
+      let list = List.of(1);
+      let actual = list.reversed();
+      let expected = List.of(1);
+      assert.deepEqual(actual, expected);
+    });
+  });
+
   describe('#take()', () => {
     it('should return a new List', () => {
       let list = new List();
