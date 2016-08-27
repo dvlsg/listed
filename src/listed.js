@@ -227,6 +227,24 @@ class List extends Array {
     }
     return list;
   }
+
+  unique(hasher = identity) {
+    const length = this.length >>> 0;
+    const list = new List();
+    // note that using Object.create(null) is quite a bit faster than Set,
+    // but causes us to have collisions on keys (ie '1' and 1 collide)
+    const seen = new Set();
+    let index = -1;
+    while (++index < length) {
+      const val = this[index];
+      const selected = hasher(val);
+      if (!seen.has(selected)) {
+        seen.add(selected);
+        list[list.length] = val;
+      }
+    }
+    return list;
+  }
 }
 
 // the method in "value" may not be completely optimized,
