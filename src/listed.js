@@ -83,6 +83,13 @@ class List extends Array {
     return this[0];
   }
 
+  flatMap(transformer = identity) {
+    const depth = 1;
+    const target = new List();
+    const mapped = this.map(transformer);
+    return flatten(mapped, depth, target);
+  }
+
   flatten(depth = 1) {
     return flatten(this, depth, new List());
   }
