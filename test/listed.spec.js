@@ -690,6 +690,36 @@ describe('List', () => {
     });
   });
 
+  describe('#tail()', () => {
+    it('should return a new List', () => {
+      let list = new List();
+      let tail = list.tail();
+      assert.notStrictEqual(list, tail);
+      assert.instanceOf(tail, List);
+    });
+
+    it('should return all but the first element', () => {
+      let list = List.of(1, 2, 3);
+      let actual = list.tail();
+      let expected = List.of(2, 3);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should return an empty list from empty list', () => {
+      let list = new List();
+      let actual = list.tail();
+      let expected = new List();
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should return empty list from single item list', () => {
+      let list = List.of(1);
+      let actual = list.tail();
+      let expected = new List();
+      assert.deepEqual(actual, expected);
+    });
+  });
+
   describe('#take()', () => {
     it('should return a new List', () => {
       let list = new List();
