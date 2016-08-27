@@ -214,6 +214,16 @@ class List extends Array {
     return ListPromise.all(this).then(List.from);
   }
 
+  reversed() {
+    let index = this.length >>> 0;
+    const list = new List(index);
+    const start = index - 1;
+    while (--index >= 0) {
+      list[start - index] = this[index];
+    }
+    return list;
+  }
+
   take(count = 1) {
     const length = this.length >>> 0;
     const actualCount = count > length ? length : count;
