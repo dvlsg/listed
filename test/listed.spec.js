@@ -653,4 +653,43 @@ describe('List', () => {
     }));
   });
 
+  describe('#take()', () => {
+    it('should return a new List', () => {
+      let list = new List();
+      let taken = list.take();
+      assert.notStrictEqual(list, taken);
+      assert.instanceOf(taken, List);
+    });
+
+    it('should take a given count of elements', () => {
+      let list = List.of(1, 2, 3);
+      let actual = list.take(2);
+      let expected = List.of(1, 2);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should take one element by default', () => {
+      let list = List.of(1, 2, 3);
+      let actual = list.take();
+      let expected = List.of(1);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should return full list when count >= length', () => {
+      let list = List.of(1, 2, 3);
+      let actual = list.take(4);
+      let expected = List.of(1, 2, 3);
+      assert.strictEqual(expected.length, 3);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should return empty list when count < 1', () => {
+      let list = List.of(1, 2, 3);
+      let actual = list.take(-1);
+      let expected = new List();
+      assert.strictEqual(expected.length, 0);
+      assert.deepEqual(actual, expected);
+    });
+  });
+
 });
