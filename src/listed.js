@@ -79,6 +79,10 @@ class List extends Array {
     return list;
   }
 
+  first() {
+    return this[0];
+  }
+
   flatten(depth = 1) {
     return flatten(this, depth, new List());
   }
