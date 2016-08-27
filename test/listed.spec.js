@@ -692,4 +692,34 @@ describe('List', () => {
     });
   });
 
+  describe('#unique()', () => {
+    it('should return a new List', () => {
+      let list = new List();
+      let unique = list.unique();
+      assert.notStrictEqual(list, unique);
+      assert.instanceOf(unique, List);
+    });
+
+    it('should return a List containing only unique elements', () => {
+      let list = List.of(1, 1, '1', 2, 3);
+      let actual = list.unique();
+      let expected = List.of(1, '1', 2, 3);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should accept a hasher for equality comparisons', () => {
+      let list = List.of(1, 1, '1', '2', '3.000', 3);
+      let actual = list.unique(Number);
+      let expected = List.of(1, '2', '3.000');
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should not modify the original List', () => {
+      let actual = List.of(1, 1, 2, 3);
+      actual.unique();
+      let expected = List.of(1, 1, 2, 3);
+      assert.deepEqual(actual, expected);
+    });
+  });
+
 });
