@@ -87,6 +87,11 @@ class List extends Array {
     return flatten(this, depth, new List());
   }
 
+  last() {
+    const length = this.length >>> 0;
+    return this[length - 1];
+  }
+
   map(transformer = identity) {
     const length = this.length >>> 0;
     const list = new List(length);
