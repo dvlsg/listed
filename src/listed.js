@@ -2,6 +2,7 @@
 
 const co = require('co');
 const parseComparers = require('./helpers/parse-comparers');
+const flatten = require('./helpers/flatten');
 
 const identity = x => x;
 const arrayConcat = Array.prototype.concat;
@@ -76,6 +77,10 @@ class List extends Array {
       }
     }
     return list;
+  }
+
+  flatten(depth = 1) {
+    return flatten(this, depth, new List());
   }
 
   map(transformer = identity) {
