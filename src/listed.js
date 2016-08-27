@@ -213,6 +213,20 @@ class List extends Array {
   resolve() {
     return ListPromise.all(this).then(List.from);
   }
+
+  take(count = 1) {
+    const length = this.length >>> 0;
+    const actualCount = count > length ? length : count;
+    if (actualCount < 1) {
+      return new List();
+    }
+    let index = -1;
+    const list = new List(actualCount);
+    while (++index < actualCount) {
+      list[index] = this[index];
+    }
+    return list;
+  }
 }
 
 // the method in "value" may not be completely optimized,
