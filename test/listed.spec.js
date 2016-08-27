@@ -224,6 +224,40 @@ describe('List', () => {
     });
   });
 
+  describe('#flatMap()', () => {
+    it('should return a new List', () => {
+      let list = new List();
+      let flat = list.flatMap();
+      assert.notStrictEqual(list, flat);
+      assert.instanceOf(flat, List);
+    });
+
+    it('should map then flatten the results', () => {
+      let list = List.of(1, 2, 3);
+      let duplicate = x => [ x, x ];
+      let actual = list.flatMap(duplicate);
+      let expected = List.of(1, 1, 2, 2, 3, 3);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should only flatten one level', () => {
+      let list = List.of(1, 2, 3);
+      let nest = x => List.of(x, List.of(x));
+      let actual = list.flatMap(nest);
+      let expected = List.of(1, List.of(1), 2, List.of(2), 3, List.of(3));
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should be associative', () => {
+      let duplicate = x => List.of(x, x);
+      let triplicate = x => List.of(x, x, x);
+      let list = List.of(1, 2, 3);
+      let first = list.flatMap(duplicate).flatMap(triplicate);
+      let second = list.flatMap(x => duplicate(x).flatMap(triplicate));
+      assert.deepEqual(first, second);
+    });
+  });
+
   describe('#flatten()', () => {
     it('should return a new List', () => {
       let list = new List();
