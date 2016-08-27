@@ -224,6 +224,20 @@ class List extends Array {
     return list;
   }
 
+  tail() {
+    const length = this.length >>> 0;
+    if (length <= 1) {
+      return new List();
+    }
+    const newLength = length - 1;
+    const list = new List(newLength);
+    let index = -1;
+    while (++index < newLength) {
+      list[index] = this[index + 1];
+    }
+    return list;
+  }
+
   take(count = 1) {
     const length = this.length >>> 0;
     const actualCount = count > length ? length : count;
