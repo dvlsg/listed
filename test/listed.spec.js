@@ -224,29 +224,6 @@ describe('List', () => {
     });
   });
 
-  describe('#last()', () => {
-    it('should return the last element', () => {
-      let list = List.of(1, 2, 3);
-      let actual = list.last();
-      let expected = 3;
-      assert.strictEqual(actual, expected);
-    });
-
-    it('should work with single item lists', () => {
-      let list = List.of(1);
-      let actual = list.last();
-      let expected = 1;
-      assert.strictEqual(actual, expected);
-    });
-
-    it('should return undefined from empty list', () => {
-      let list = new List();
-      let actual = list.last();
-      let expected = undefined; // eslint-disable-line no-undef-init
-      assert.strictEqual(actual, expected);
-    });
-  });
-
   describe('#flatten()', () => {
     it('should return a new List', () => {
       let list = new List();
@@ -274,6 +251,29 @@ describe('List', () => {
       let actual = list.flatten();
       let expected = new List(1, 2, 3, [ 4, 5 ]);
       assert.deepEqual(actual, expected);
+    });
+  });
+
+  describe('#last()', () => {
+    it('should return the last element', () => {
+      let list = List.of(1, 2, 3);
+      let actual = list.last();
+      let expected = 3;
+      assert.strictEqual(actual, expected);
+    });
+
+    it('should work with single item lists', () => {
+      let list = List.of(1);
+      let actual = list.last();
+      let expected = 1;
+      assert.strictEqual(actual, expected);
+    });
+
+    it('should return undefined from empty list', () => {
+      let list = new List();
+      let actual = list.last();
+      let expected = undefined; // eslint-disable-line no-undef-init
+      assert.strictEqual(actual, expected);
     });
   });
 
