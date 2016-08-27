@@ -208,6 +208,22 @@ describe('List', () => {
     });
   });
 
+  describe('#first()', () => {
+    it('should return the first element', () => {
+      let list = List.of(1, 2, 3);
+      let actual = list.first();
+      let expected = 1;
+      assert.strictEqual(actual, expected);
+    });
+
+    it('should return undefined from empty list', () => {
+      let list = new List();
+      let actual = list.first();
+      let expected = undefined; // eslint-disable-line no-undef-init
+      assert.strictEqual(actual, expected);
+    });
+  });
+
   describe('#flatten()', () => {
     it('should return a new List', () => {
       let list = new List();
