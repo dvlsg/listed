@@ -175,7 +175,7 @@ class List extends Array {
   }
 
   orderBy(...args) {
-    const comparer = parseComparers(...args);
+    const comparer = parseComparers(args);
     const length = this.length;
     const result = new List(length);
 
