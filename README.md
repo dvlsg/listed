@@ -46,6 +46,7 @@ To run benchmarks of performance comparisons with other popular data manipulatio
   * [.of()](#of)
   * [#every()](#every)
   * [#filter()](#filter)
+  * [#first()](#first)
   * [#flatten()](#flatten)
   * [#map()](#map)
   * [#mapAsync()](#mapasync)
@@ -153,6 +154,28 @@ If no predicate is provided, then the identity function (`x => x`) will be used 
 const list = List.of(0, 1, 2, null, 3);
 const filtered = list.filter();
 //=> List [ 1, 2, 3 ]
+```
+
+#### #first()
+
+```
+List#first :: List<T> ~> () -> T
+```
+
+Returns the first element from the `List`.
+
+```js
+const list = List.of(1, 2, 3);
+const first = list.first();
+//=> 1
+```
+
+If the `List` is empty, then `undefined` will be returned.
+
+```js
+const List = List.of();
+const first = list.first();
+//=> undefined
 ```
 
 #### #flatten()
