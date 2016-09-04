@@ -369,3 +369,25 @@ const resolved = await list.resolve();
 ```
 
 Calling this method is the equivalent of calling `Promise.all(list).then(List.from)`.
+
+#### #take()
+
+```
+List#take :: List<T> ~> (Number) -> List<T>
+```
+
+Returns a list containing a given number of elements.
+
+```js
+const list = List.of(1, 2, 3, 4, 5);
+const taken = list.take(3);
+//=> List [ 1, 2, 3 ]
+```
+
+If the given number of elements to take is larger than the number of available elements, then the entire list will be taken.
+
+```js
+const list = List.of(1, 2, 3);
+const taken = list.take(4);
+//=> List [ 1, 2, 3, 4 ]
+```
