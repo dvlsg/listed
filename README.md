@@ -416,3 +416,37 @@ const list = List.of(1, 2, 3);
 const taken = list.take(4);
 //=> List [ 1, 2, 3, 4 ]
 ```
+
+#### #unique()
+
+```
+List#unique :: List<T> ~> () -> List<T>
+List#unique :: List<T> ~> (T -> String | Number) -> List<T>
+```
+
+Returns a `List` containing only unique elements from the original list.
+
+```js
+const list = List.of(1, 2, 3, 3, 4, 4, 4, 5);
+const unique = list.unique();
+//=> List [ 1, 2, 3, 4, 5 ]
+```
+
+Unique accepts an optional hashing function used to determine the uniqueness of the elements.
+
+```js
+const list = List.of(
+  { id: 1, value: 3 },
+  { id: 2, value: 4 },
+  { id: 3, value: 3 },
+  { id: 4, value: 2 }
+);
+const unique = list.unique(x => x.value);
+/*=> List [
+  { id: 1, value: 3 },
+  { id: 2, value: 4 },
+  { id: 4, value: 2 }
+] */
+```
+
+Note that the first unique element found will be the one placed in the resulting `List`.
