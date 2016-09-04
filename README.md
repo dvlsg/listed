@@ -152,6 +152,31 @@ const filtered = list.filter();
 //=> List [ 1, 2, 3 ]
 ```
 
+#### #flatten()
+
+```
+List#flatten :: List<T | T[]> ~> () -> List<T>
+List#flatten :: List<T | T[]> ~> (Number) -> List<T>
+```
+
+Flattens the `List` by one or a given number of levels.
+
+```js
+const list = List.of(1, 2, List.of(3, 4, List.of(5)));
+const flattened = list.flatten();
+//=> List [ 1, 2, 3, 4, List [ 5 ] ]
+const flattened2 = list.flatten(2);
+//=> List [ 1, 2, 3, 4, 5 ]
+```
+
+Flatten will also work with internal arraylikes.
+
+```js
+const list = List.of(1, 2, [ 3, 4 ]);
+const flattened = list.flatten();
+//=> List [ 1, 2, 3, 4 ]
+```
+
 #### #map()
 
 ```js
