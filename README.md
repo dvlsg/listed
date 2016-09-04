@@ -48,6 +48,7 @@ To run benchmarks of performance comparisons with other popular data manipulatio
   * [#filter()](#filter)
   * [#first()](#first)
   * [#flatten()](#flatten)
+  * [#last()](#last)
   * [#map()](#map)
   * [#mapAsync()](#mapasync)
   * [#mapLimit()](#maplimit)
@@ -201,6 +202,28 @@ Flatten will also work with internal arraylikes.
 const list = List.of(1, 2, [ 3, 4 ]);
 const flattened = list.flatten();
 //=> List [ 1, 2, 3, 4 ]
+```
+
+#### #last()
+
+```
+List#last :: List<T> ~> () -> T
+```
+
+Returns the last element from the `List`.
+
+```js
+const list = List.of(1, 2, 3);
+const last = list.last();
+//=> 3
+```
+
+If the `List` is empty, then `undefined` will be returned.
+
+```js
+const List = List.of();
+const last = list.last();
+//=> undefined
 ```
 
 #### #map()
