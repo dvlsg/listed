@@ -46,6 +46,7 @@ To run benchmarks of performance comparisons with other popular data manipulatio
   * [.of()](#of)
   * [#every()](#every)
   * [#filter()](#filter)
+  * [#flatten()](#flatten)
   * [#map()](#map)
   * [#mapAsync()](#mapasync)
   * [#mapLimit()](#maplimit)
@@ -53,6 +54,8 @@ To run benchmarks of performance comparisons with other popular data manipulatio
   * [#orderBy()](#orderby)
   * [#reduce()](#reduce)
   * [#resolve()](#resolve)
+  * [#take()](#take)
+  * [#unique()](#unique)
 
 ### List
 
