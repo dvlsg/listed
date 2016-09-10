@@ -57,6 +57,7 @@ To run benchmarks of performance comparisons with other popular data manipulatio
   * [#reduce()](#reduce)
   * [#resolve()](#resolve)
   * [#reversed()](#reversed)
+  * [#tail()](#tail)
   * [#take()](#take)
   * [#unique()](#unique)
 
@@ -454,6 +455,20 @@ Returns a `List` with elements in the reverse order. Note that this method does 
 const list = List.of(1, 2, 3);
 const reversed = list.reversed();
 //=> List [ 3, 2, 1 ]
+```
+
+#### #tail()
+
+```
+List::#tail :: List<T> ~> () -> List<T>
+```
+
+Returns a `List` containing every element but the first from the original.
+
+```js
+const list = List.of(1, 2, 3);
+const tail = list.tail();
+//=> List [ 2, 3 ]
 ```
 
 #### #take()
