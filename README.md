@@ -56,6 +56,7 @@ To run benchmarks of performance comparisons with other popular data manipulatio
   * [#orderBy()](#orderby)
   * [#reduce()](#reduce)
   * [#resolve()](#resolve)
+  * [#reversed()](#reversed)
   * [#take()](#take)
   * [#unique()](#unique)
 
@@ -443,6 +444,20 @@ const resolved = await list.resolve();
 ```
 
 Calling this method is the equivalent of calling `Promise.all(list).then(List.from)`.
+
+#### #reversed()
+
+```
+List#reversed :: List<T> () -> List<T>
+```
+
+Returns a `List` with elements in the reverse order. Note that this method does *not* modify the original `List`, unlike `Array#reverse()`.
+
+```js
+const list = List.of(1, 2, 3);
+const reversed = list.reversed();
+//=> List [ 3, 2, 1 ]
+```
 
 #### #take()
 
