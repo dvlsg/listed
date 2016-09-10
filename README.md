@@ -64,8 +64,8 @@ To run benchmarks of performance comparisons with other popular data manipulatio
 
 #### .from()
 
-```js
-from(arr: arrayLike): List
+```
+List.from :: (arrayLike<T> | Array<T> | Iterable<T>) -> List<T>
 ```
 
 Converts an existing `Array`, array-like, or iterable `Object` to a new `List`.
@@ -77,8 +77,8 @@ const list = List.from([ 1, 2, 3 ]);
 
 #### .of()
 
-```js
-from(...any): List
+```
+List.of :: (...T) -> List<T>
 ```
 
 Creates a new `List` containing all of the provided arguments.
@@ -98,8 +98,7 @@ const list = List.of(1);
 #### #every()
 
 ```
-List#every :: List a ~> (a -> Boolean) -> Boolean
-List#every :: List a ~> () -> Boolean
+List#every :: List<T> ~> (T -> Boolean) -> Boolean
 ```
 
 Returns a `Boolean` indicating whether or not every value passes a given predicate. The index of the element, and a reference to the original `List` will also be provided to the predicate.
@@ -120,9 +119,8 @@ const passed = list.every();
 
 #### #filter()
 
-```js
-filter(predicate: Function): List
-filter(): List
+```
+List#filter :: List<T> ~> ((T, Number, List<T>) -> Boolean) -> List<T>
 ```
 
 Returns a new `List` only containing elements which pass the given predicate.
@@ -197,7 +195,7 @@ const flattened2 = list.flatten(2);
 //=> List [ 1, 2, 3, 4, 5 ]
 ```
 
-Flatten will also work with internal arraylikes.
+Flatten will also work with array-likes contained within the parent `List`.
 
 ```js
 const list = List.of(1, 2, [ 3, 4 ]);
@@ -229,9 +227,8 @@ const last = list.last();
 
 #### #map()
 
-```js
-map(transformer: Function): List
-map(): List
+```
+List#map :: List<T> ~> ((T, Number, List<T>) -> U) -> List<U>
 ```
 
 Returns a new `List` containing elements which have been mapped by the provided transformer.
@@ -435,7 +432,7 @@ const reduced = List.reduce((accumulator, elem, index, listRef) => {
 List#resolve :: List<Promise<T> | T> ~> () -> Promise<List<T>>
 ```
 
-A helper method for resolving a List of promises or values down into a List of values wrapped in a single promise.
+A helper method for resolving a `List` of promises or values down into a `List` of values wrapped in a single promise.
 
 ```js
 const list = List.of(1, Promise.resolve(2), 3);
@@ -448,7 +445,7 @@ Calling this method is the equivalent of calling `Promise.all(list).then(List.fr
 #### #reversed()
 
 ```
-List#reversed :: List<T> () -> List<T>
+List#reversed :: List<T> ~> () -> List<T>
 ```
 
 Returns a `List` with elements in the reverse order. Note that this method does *not* modify the original `List`, unlike `Array#reverse()`.
@@ -465,7 +462,7 @@ const reversed = list.reversed();
 List#take :: List<T> ~> (Number) -> List<T>
 ```
 
-Returns a list containing a given number of elements.
+Returns a `List` containing a given number of elements.
 
 ```js
 const list = List.of(1, 2, 3, 4, 5);
