@@ -47,6 +47,7 @@ To run benchmarks of performance comparisons with other popular data manipulatio
   * [#every()](#every)
   * [#filter()](#filter)
   * [#first()](#first)
+  * [#flatMap()](#flatmap)
   * [#flatten()](#flatten)
   * [#last()](#last)
   * [#map()](#map)
@@ -177,6 +178,20 @@ If the `List` is empty, then `undefined` will be returned.
 const List = List.of();
 const first = list.first();
 //=> undefined
+```
+
+#### #flatMap()
+
+```
+List#flatMap :: List<T> ~> ((T, Number, List<T>) -> U | U[]) -> List<U>
+```
+
+Maps the `List` using a given mapper and flattens those results by one level.
+
+```js
+let list = List.of(1, 2, 3);
+let mapped = list.flatMap(x => [ x, x ]);
+//=> [ 1, 1, 2, 2, 3, 3 ]
 ```
 
 #### #flatten()
