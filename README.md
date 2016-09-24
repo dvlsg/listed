@@ -44,6 +44,7 @@ To run benchmarks of performance comparisons with other popular data manipulatio
 * List
   * [.from()](#from)
   * [.of()](#of)
+  * [#average()](#average)
   * [#every()](#every)
   * [#filter()](#filter)
   * [#first()](#first)
@@ -96,6 +97,42 @@ Note that this will work even with a single `Number` argument, whereas `new List
 ```js
 const list = List.of(1);
 //=> List [ 1 ]
+```
+
+#### #average()
+
+```
+List#average :: List<Number> ~> () -> Number
+List#average :: List<T> ~> ((T) -> Number) -> Number
+```
+
+Returns the average of all numbers in the `List`.
+
+```js
+const list = List.of(1, 2, 3, 4, 5);
+const average = list.average();
+//=> 3
+```
+
+Accepts an optional selector to determine what elements to average.
+
+```js
+const list = List.of(
+  { id: 1, count: 3 },
+  { id: 2, count: 2 },
+  { id: 3, count: 4 },
+  { id: 4, count: 1 }
+);
+const average = list.average(elem => elem.count);
+//=> 2.5
+```
+
+The average of an empty `List` will be `NaN`. Additional reading [here](http://math.stackexchange.com/q/909395).
+
+```js
+const list = List.of();
+const average = list.average();
+//=> NaN
 ```
 
 #### #every()
