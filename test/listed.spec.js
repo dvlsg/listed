@@ -106,6 +106,41 @@ describe('List', () => {
     });
   });
 
+  describe('#average()', () => {
+    it('should return the average of all elements', () => {
+      let list = List.of(1, 2, 3, 4);
+      let actual = list.average();
+      let expected = (1 + 2 + 3 + 4) / 4;
+      assert.strictEqual(actual, expected);
+    });
+
+    it('should consider all non-numbers to be 0', () => {
+      let list = List.of(1, 2, undefined, '3', 4);
+      let actual = list.average();
+      let expected = (1 + 2 + 0 + 0 + 4) / 5;
+      assert.strictEqual(actual, expected);
+    });
+
+    it('should return NaN from an empty List', () => {
+      let list = List.of();
+      let average = list.average();
+      assert.isNaN(average);
+    });
+
+    it('should use a provided selector', () => {
+      let list = List.of(
+        { id: 1, value: 3 },
+        { id: 2, value: 4 },
+        { id: 3, value: 1 },
+        { id: 4, value: 2 },
+        { id: 5, value: 5 }
+      );
+      let actual = list.average(elem => elem.value);
+      let expected = (3 + 4 + 1 + 2 + 5) / 5;
+      assert.strictEqual(actual, expected);
+    });
+  });
+
   describe('#concat()', () => {
     it('should return a new List', () => {
       let list = List.of(1, 2, 3);
