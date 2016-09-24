@@ -45,6 +45,15 @@ class List extends Array {
     return list;
   }
 
+  average(selector = identity) {
+    const length = this.length >>> 0;
+    if (length === 0) {
+      // see here: http://math.stackexchange.com/q/909395
+      return NaN;
+    }
+    return this.sum(selector) / length;
+  }
+
   concat() {
     // array concat is the fastest of compared operations.
     // even with the List overhead, this still tops benchmarks
