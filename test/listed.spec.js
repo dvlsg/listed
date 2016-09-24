@@ -763,6 +763,41 @@ describe('List', () => {
     });
   });
 
+  describe('#sum()', () => {
+    it('should return the sum of all numbers in the List', () => {
+      let list = List.of(1, 2, 3, 4);
+      let actual = list.sum();
+      let expected = 10;
+      assert.strictEqual(actual, expected);
+    });
+
+    it('should consider all non-numbers to be 0', () => {
+      let list = List.of(1, 2, undefined, 3, '4', null, NaN);
+      let actual = list.sum();
+      let expected = 6;
+      assert.strictEqual(actual, expected);
+    });
+
+    it('should return 0 from an empty List', () => {
+      let list = List.of();
+      let actual = list.sum();
+      let expected = 0;
+      assert.strictEqual(actual, expected);
+    });
+
+    it('should use a given selector', () => {
+      let list = List.of(
+        { id: 1, count: 3 },
+        { id: 2, count: 2 },
+        { id: 3, count: 4 },
+        { id: 4, count: 1 }
+      );
+      let actual = list.sum(elem => elem.count);
+      let expected = 10;
+      assert.strictEqual(actual, expected);
+    });
+  });
+
   describe('#tail()', () => {
     it('should return a new List', () => {
       let list = new List();
