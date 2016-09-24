@@ -58,6 +58,7 @@ To run benchmarks of performance comparisons with other popular data manipulatio
   * [#reduce()](#reduce)
   * [#resolve()](#resolve)
   * [#reversed()](#reversed)
+  * [#sum()](#sum)
   * [#tail()](#tail)
   * [#take()](#take)
   * [#unique()](#unique)
@@ -470,6 +471,34 @@ Returns a `List` with elements in the reverse order. Note that this method does 
 const list = List.of(1, 2, 3);
 const reversed = list.reversed();
 //=> List [ 3, 2, 1 ]
+```
+
+#### #sum()
+
+```
+List#sum :: List<Number> ~> () -> Number
+List#sum :: List<T> ~> ((T) -> Number) -> Number
+```
+
+Returns the sum of all elements in the `List`.
+
+```js
+const list = List.of(1, 2, 3);
+const sum = list.sum();
+//=> 6
+```
+
+Accepts an optional selector to determine what elements to sum.
+
+```js
+const list = List.of(
+  { id: 1, count: 3 },
+  { id: 2, count: 2 },
+  { id: 3, count: 4 },
+  { id: 4, count: 1 }
+);
+const sum = list.sum(elem => elem.count);
+//=> 10
 ```
 
 #### #tail()
