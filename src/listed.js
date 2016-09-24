@@ -240,6 +240,34 @@ class List extends Array {
     return list;
   }
 
+  sum(selector = identity) {
+    // note: KEEP THIS COMMENT HERE. we're trying to *avoid*
+    // allowing v8 crankshaft to inline this function,
+    // which appears to be a performance loss at first attempt
+    // -- will need to do some additional testing on multiple machines.
+    // more reading here: https://top.fse.guru/nodejs-a-quick-optimization-advice-7353b820c92e
+
+    // we could also do this, but it doesnt seem to perform as well
+    // return this.reduce((acc, elem) => {
+    //   const selected = selector(elem);
+    //   if (typeof selected === 'number' && !isNaN(selected)) {
+    //     acc += selected;
+    //   }
+    //   return acc;
+    // }, 0);
+
+    let sum = 0;
+    const length = this.length >>> 0;
+    let index = -1;
+    while (++index < length) {
+      const selected = selector(this[index]);
+      if (typeof selected === 'number' && !isNaN(selected)) {
+        sum += selected;
+      }
+    }
+    return sum;
+  }
+
   tail() {
     const length = this.length >>> 0;
     if (length <= 1) {
