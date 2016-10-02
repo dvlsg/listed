@@ -24,7 +24,7 @@ const iterableEvery = () => iterable.every(predicate);
 const lazyEvery = () => lazy.every(predicate);
 const ramdaAll = () => ramda.all(predicate, data);
 
-run('filter', {
+run('every', {
   'List#every()': listEvery,
   'Array#every()': arrayEvery,
   'Underscore.every()': underscoreEvery,

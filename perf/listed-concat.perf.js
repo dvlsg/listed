@@ -27,7 +27,7 @@ const lodashConcat = () => lodash.concat(head, ...tail);
 const iterableConcat = () => iterHead.concat(...tail).toArray();
 const lazyConcat = () => lazyHead.concat(...tail).toArray();
 
-run('filter', {
+run('concat', {
   'List#concat()': listConcat,
   'Array#concat()': arrayConcat,
   'Lodash.concat()': lodashConcat,
