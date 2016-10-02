@@ -1,6 +1,6 @@
 "use strict";
 
-const { List, ListPromise } = require('../');
+const { List, ListPromise, GroupedList } = require('../');
 const co = require('co');
 const { assert } = require('chai');
 
@@ -319,6 +319,92 @@ describe('List', () => {
       let list = new List(1, [ 2, 3, [ 4, 5 ] ]);
       let actual = list.flatten();
       let expected = new List(1, 2, 3, [ 4, 5 ]);
+      assert.deepEqual(actual, expected);
+    });
+  });
+
+  describe('#groupBy()', () => {
+    it('should group by a given selector', () => {
+      let list = new List(
+        { id: 1, type: 'a', val: 5 },
+        { id: 2, type: 'a', val: 6 },
+        { id: 3, type: 'b', val: 7 },
+        { id: 4, type: 'b', val: 8 }
+      );
+      let actual = list.groupBy(x => x.type);
+      let expected = new List(
+        GroupedList.of(
+          { id: 1, type: 'a', val: 5 },
+          { id: 2, type: 'a', val: 6 }
+        ),
+        GroupedList.of(
+          { id: 3, type: 'b', val: 7 },
+          { id: 4, type: 'b', val: 8 }
+        )
+      );
+      expected[0].key = 'a';
+      expected[1].key = 'b';
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should convert given string to selector', () => {
+      let list = new List(
+        { id: 1, type: 'a', val: 5 },
+        { id: 2, type: 'a', val: 6 },
+        { id: 3, type: 'b', val: 7 },
+        { id: 4, type: 'b', val: 8 }
+      );
+      let actual = list.groupBy('type');
+      let expected = new List(
+        GroupedList.of(
+          { id: 1, type: 'a', val: 5 },
+          { id: 2, type: 'a', val: 6 }
+        ),
+        GroupedList.of(
+          { id: 3, type: 'b', val: 7 },
+          { id: 4, type: 'b', val: 8 }
+        )
+      );
+      expected[0].key = 'a';
+      expected[1].key = 'b';
+      assert.deepEqual(actual, expected);
+    });
+
+    xit('should support integrated aggregation', () => {
+      let products = List.of(
+        { productId: 1, name: 'Product 1', price: 123.45 },
+        { productId: 2, name: 'Product 2', price: 35.78 },
+        { productId: 3, name: 'Product 3', price: 95.50 }
+      );
+
+      let sales = List.of(
+        { saleId: 1, productId: 1, quantity: 1 },
+        { saleId: 2, productId: 1, quantity: 5 },
+        { saleId: 3, productId: 2, quantity: 4 },
+        { saleId: 4, productId: 2, quantity: 2 },
+        { saleId: 5, productId: 3, quantity: 1 }
+      );
+
+      let actual = sales.filter(sale => sale.quantity > 1)
+        .product(products) // need to implement product before enabling this test.
+        .filter(([ sale, product ]) => sale.productId === product.productId)
+        .map(([ sale, product ]) => ({
+          saleId: sale.saleId,
+          productId: product.productId,
+          quantity: sale.quantity,
+          price: product.price
+        }))
+        .groupBy(productSale => productSale.productId)
+        .map(group => ({
+          productId: group.key,
+          quantity: group.sum(productSale => productSale.quantity),
+          amount: group.sum(productSale => productSale.quantity * productSale.price)
+        }));
+
+      let expected = new List(
+        { productId: 1, quantity: 5, amount: 617.25 },
+        { productId: 2, quantity: 6, amount: 214.68 }
+      );
       assert.deepEqual(actual, expected);
     });
   });
