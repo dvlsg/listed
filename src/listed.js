@@ -6,6 +6,7 @@ const flatten = require('./helpers/flatten');
 
 const identity = x => x;
 const arrayConcat = Array.prototype.concat;
+const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 class ListPromise extends Promise {
   get [Symbol.toStringTag]() {
@@ -101,6 +102,36 @@ class List extends Array {
 
   flatten(depth = 1) {
     return flatten(this, depth, new List());
+  }
+
+  groupBy(keySelector = identity) {
+    if (typeof keySelector === 'string') {
+      const keyStr = keySelector;
+      keySelector = x => x[keyStr];
+    }
+
+    const length = this.length >>> 0;
+    let index = -1;
+    // this is faster than using an actual map,
+    // but we get collisions on 1 and '1'
+    // is this an acceptable tradeoff?
+    // libraries like lodash also have this collision.
+    const obj = Object.create(null);
+    const grouped = new List();
+    while (++index < length) {
+      const val = this[index];
+      const key = keySelector(val);
+      if (hasOwnProperty.call(obj, key)) {
+        obj[key][obj[key].length] = val;
+      }
+      else {
+        const group = GroupedList.of(val); // eslint-disable-line no-use-before-define
+        group.key = key;
+        obj[key] = group;
+        grouped[grouped.length] = group;
+      }
+    }
+    return grouped;
   }
 
   last() {
@@ -343,7 +374,17 @@ Object.defineProperties(
     }, {})
 );
 
+class GroupedList extends List {
+  // expect GroupedList.key to exist.
+  // we can define it as part of the ctor if we want,
+  // but really this class should just be used internally.
+  get [Symbol.toStringTag]() {
+    return 'GroupedList';
+  }
+}
+
 module.exports = {
+  GroupedList,
   List,
   ListPromise,
   default: List
