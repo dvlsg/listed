@@ -50,6 +50,7 @@ To run benchmarks of performance comparisons with other popular data manipulatio
   * [#first()](#first)
   * [#flatMap()](#flatmap)
   * [#flatten()](#flatten)
+  * [#groupBy()](#groupby)
   * [#last()](#last)
   * [#map()](#map)
   * [#mapAsync()](#mapasync)
@@ -255,6 +256,59 @@ Flatten will also work with array-likes contained within the parent `List`.
 const list = List.of(1, 2, [ 3, 4 ]);
 const flattened = list.flatten();
 //=> List [ 1, 2, 3, 4 ]
+```
+
+#### #groupBy()
+
+```
+List#groupBy :: List<T> ~> (T -> String) -> List<GroupedList<String>>
+List#groupBy :: List<T> ~> (String) -> List<GroupedList<String>>
+```
+
+Groups the `List` by a given selector.
+
+```js
+const list = List.of(
+  { id: 1, type: 'a', val: 5 },
+  { id: 2, type: 'a', val: 6 },
+  { id: 3, type: 'b', val: 7 },
+  { id: 4, type: 'b', val: 8 }
+);
+const grouped = list.groupBy(x => x.type);
+/*=> List [
+  GroupedList [
+    { id: 1, type: 'a', val: 5 },
+    { id: 2, type: 'a', val: 6 }
+  ],
+  GroupedList [
+    { id: 3, type: 'b', val: 7 },
+    { id: 4, type: 'b', val: 8 }
+  ]
+] */
+```
+
+If the selector is provided as a string, then the equivalent of `x => x[selector]` will be used to determine by which value to group.
+
+Note that the internal `GroupedList` will have a `key` property defined which will contain the value of the result of the given selector.
+
+```js
+const list = List.of(
+  { id: 1, type: 'a', val: 5 },
+  { id: 2, type: 'a', val: 6 },
+  { id: 3, type: 'b', val: 7 },
+  { id: 4, type: 'b', val: 8 }
+);
+const result = list
+  .groupBy(x => x.type)
+  .map(group => ({
+    key: group.key,
+    average: group.average(x => x.val)
+    sum: group.sum(x => x.val)
+  }));
+/* => List [
+  { key: 'a', average: 5.5, sum: 11 },
+  { key: 'b', average: 7.5, sum: 15 }
+] */
 ```
 
 #### #last()
