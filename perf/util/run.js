@@ -9,13 +9,17 @@ function onCycle(event) {
   process.stdout.write(String(event.target));
 }
 
+function onComplete(event) {
+  process.stdout.write(String(event.target));
+}
+
 function run(benchName, mappings) {
 
   console.log('');
   console.log(`Running \`${benchName}\` benchmarks...`);
 
   const benches = entries(mappings).map(([ name, fn ]) => {
-    return new Benchmark({ name, fn, onCycle });
+    return new Benchmark({ name, fn, onComplete });
   });
 
   Benchmark.invoke(benches, {

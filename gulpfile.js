@@ -51,10 +51,13 @@ gulp.task('watch', () => {
 });
 
 gulp.task('perf', () => {
+  const skips = [ 'map-async', 'map-limit', 'map-series' ];
   return co(function*() {
     const files = yield glob(perfGlob);
     for (let file of files) {
-      yield spawn('node', [ file ]);
+      if (skips.every(skip => file.indexOf(skip) === -1)) {
+        yield spawn('node', [ file ]);
+      }
     }
   });
 });
