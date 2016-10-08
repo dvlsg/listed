@@ -106,6 +106,12 @@ describe('List', () => {
     });
   });
 
+  describe('#all()', () => {
+    it('should be an alias for #every()', () => {
+      assert.strictEqual(List.prototype.all, List.prototype.every);
+    });
+  });
+
   describe('#average()', () => {
     it('should return the average of all elements', () => {
       let list = List.of(1, 2, 3, 4);
