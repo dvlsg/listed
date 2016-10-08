@@ -705,6 +705,32 @@ describe('List', () => {
     }));
   });
 
+  describe('#none()', () => {
+    it('should return true when none of the elements pass a given predicate', () => {
+      const list = List.of(1, 2, 3, 4);
+      const none = list.none(x => typeof x === 'string');
+      assert.isTrue(none);
+    });
+
+    it('should return false when any of the elements passes a given predicate', () => {
+      const list = List.of('1', '2', 3, '4');
+      const none = list.none(x => Number.isFinite(x));
+      assert.isFalse(none);
+    });
+
+    it('should use the identity function as a default predicate', () => {
+      const list = List.of(null, undefined, 0, '', false);
+      const none = list.none();
+      assert.isTrue(none);
+    });
+
+    it('should return true from an empty list', () => {
+      const list = List.of();
+      const none = list.none(() => true);
+      assert.isTrue(none);
+    });
+  });
+
   describe('#orderBy()', () => {
 
     let unsorted = new List(
