@@ -44,6 +44,7 @@ To run benchmarks of performance comparisons with other popular data manipulatio
 * List
   * [.from()](#from)
   * [.of()](#of)
+  * [#all()](#every)
   * [#average()](#average)
   * [#every()](#every)
   * [#filter()](#filter)
@@ -142,6 +143,8 @@ const average = list.average();
 ```
 List#every :: List<T> ~> (T -> Boolean) -> Boolean
 ```
+
+_Aliases: **all**_
 
 Returns a `Boolean` indicating whether or not every value passes a given predicate. The index of the element, and a reference to the original `List` will also be provided to the predicate.
 
