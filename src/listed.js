@@ -242,6 +242,10 @@ class List extends Array {
     }));
   }
 
+  none(predicate) {
+    return !this.any(predicate);
+  }
+
   orderBy(...args) {
     const comparer = parseComparers(args);
     const length = this.length;
