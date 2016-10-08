@@ -46,6 +46,7 @@ To run benchmarks of performance comparisons with other popular data manipulatio
   * [.of()](#of)
   * [#all()](#every)
   * [#average()](#average)
+  * [#any()](#any)
   * [#every()](#every)
   * [#filter()](#filter)
   * [#first()](#first)
@@ -100,6 +101,29 @@ Note that this will work even with a single `Number` argument, whereas `new List
 ```js
 const list = List.of(1);
 //=> List [ 1 ]
+```
+
+#### #any()
+
+```
+List#any :: List<T> ~> (T -> Boolean) -> Boolean
+List#any :: List<T> ~> () -> Boolean
+```
+
+Returns a boolean indicating whether any of the elements in the `List` pass a given predicate.
+
+```js
+const list = List.of(1, 2, 3, 4, 5);
+const any = list.any(x => x > 4);
+//=> true
+```
+
+If no predicate is provided, then the identity function will be used for a predicate.
+
+```js
+const list = List.of(null, undefined, 0, '');
+const any = list.any();
+//=> false
 ```
 
 #### #average()
