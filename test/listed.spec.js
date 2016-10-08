@@ -922,6 +922,12 @@ describe('List', () => {
     });
   });
 
+  describe('#some()', () => {
+    it('should be an alias for List#any()', () => {
+      assert.strictEqual(List.prototype.some, List.prototype.any);
+    });
+  });
+
   describe('#sum()', () => {
     it('should return the sum of all numbers in the List', () => {
       let list = List.of(1, 2, 3, 4);

@@ -62,6 +62,7 @@ To run benchmarks of performance comparisons with other popular data manipulatio
   * [#reduce()](#reduce)
   * [#resolve()](#resolve)
   * [#reversed()](#reversed)
+  * [#some()](#any)
   * [#sum()](#sum)
   * [#tail()](#tail)
   * [#take()](#take)
@@ -109,6 +110,8 @@ const list = List.of(1);
 List#any :: List<T> ~> (T -> Boolean) -> Boolean
 List#any :: List<T> ~> () -> Boolean
 ```
+
+_Aliases: **some**_
 
 Returns a boolean indicating whether any of the elements in the `List` pass a given predicate.
 

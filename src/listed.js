@@ -381,7 +381,8 @@ class List extends Array {
 }
 
 const aliases = {
-  all: 'every'
+  all: 'every',
+  some: 'any'
 };
 Object.keys(aliases).forEach(key => {
   const name = aliases[key];
