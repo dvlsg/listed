@@ -159,6 +159,14 @@ const passed = list.every();
 //=> false
 ```
 
+Calling `every()` on an empty `List` will return true.
+
+```js
+const list = List.of();
+const passed = list.every();
+//=> true
+```
+
 #### #filter()
 
 ```
