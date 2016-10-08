@@ -988,6 +988,30 @@ describe('List', () => {
     });
   });
 
+  describe('#takeWhile()', () => {
+    it('should take elements from a list while a given predicate passes', () => {
+      let list = List.of(1, 2, 3, 2, 1);
+      let actual = list.takeWhile(x => x < 3);
+      let expected = List.of(1, 2);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should return an empty List from an empty List', () => {
+      let list = List.of();
+      let actual = list.takeWhile(() => true);
+      let expected = List.of();
+      assert.notStrictEqual(actual, expected);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should use the identity function as a default predicate', () => {
+      let list = List.of(1, 2, null, 3, 4);
+      let actual = list.takeWhile();
+      let expected = List.of(1, 2);
+      assert.deepEqual(actual, expected);
+    });
+  });
+
   describe('#unique()', () => {
     it('should return a new List', () => {
       let list = new List();
