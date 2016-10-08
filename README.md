@@ -58,6 +58,7 @@ To run benchmarks of performance comparisons with other popular data manipulatio
   * [#mapAsync()](#mapasync)
   * [#mapLimit()](#maplimit)
   * [#mapSeries()](#mapseries)
+  * [#none()](#none)
   * [#orderBy()](#orderby)
   * [#reduce()](#reduce)
   * [#resolve()](#resolve)
@@ -475,6 +476,37 @@ const mapped = await list.mapSeries(async elem => {
   return json;
 });
 //=> List [ <users_json_data>, <tasks_json_data> ]
+```
+
+#### #none()
+
+```
+List#none :: List<T> ~> (T -> Boolean) -> Boolean
+List#none :: List<T> ~> () -> Boolean
+```
+
+Returns a boolean indicating whether or not none of the elements in the `List` passed a given predicate.
+
+```js
+const list = List.of(1, 2, '3', 4);
+const none = list.none(x => typeof x === 'string');
+//=> false
+```
+
+If no predicate is provided, then the identity function will be used as a default.
+
+```js
+const list = List.of(null, undefined, 0, '', false);
+const none = list.none();
+//=> true
+```
+
+Using `none()` on an empty `List` will return true.
+
+```js
+const list = List.of();
+const none = list.none();
+//=> true
 ```
 
 #### #orderBy()
