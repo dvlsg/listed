@@ -112,6 +112,32 @@ describe('List', () => {
     });
   });
 
+  describe('#any()', () => {
+    it('should return true when any elements pass a given predicate', () => {
+      let list = List.of(1, 2, 3, 4);
+      let any = list.any(x => x > 3);
+      assert.isTrue(any);
+    });
+
+    it('should return false when all elements fail a given predicate', () => {
+      let list = List.of(1, 2, 3, 4);
+      let any = list.any(x => x > 4);
+      assert.isFalse(any);
+    });
+
+    it('should use the identity function as a default predicate', () => {
+      let list = List.of(null, undefined, 0, '');
+      let any = list.any();
+      assert.isFalse(any);
+    });
+
+    it('should return false for empty lists', () => {
+      let list = List.of();
+      let any = list.any(() => true);
+      assert.isFalse(any);
+    });
+  });
+
   describe('#average()', () => {
     it('should return the average of all elements', () => {
       let list = List.of(1, 2, 3, 4);
