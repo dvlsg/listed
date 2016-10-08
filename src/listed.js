@@ -368,6 +368,19 @@ class List extends Array {
   }
 }
 
+const aliases = {
+  all: 'every'
+};
+Object.keys(aliases).forEach(key => {
+  const name = aliases[key];
+  const value = List.prototype[name];
+  Object.defineProperty(
+    List.prototype,
+    key,
+    { value }
+  );
+});
+
 // the method in "value" may not be completely optimized,
 // since we're using spread operators,
 // but this is simpler to maintain during development.
