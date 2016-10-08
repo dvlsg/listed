@@ -203,6 +203,12 @@ describe('List', () => {
       every = list.every();
       assert.isFalse(every);
     });
+
+    it('should return true from an empty list', () => {
+      let list = List.of();
+      let every = list.every();
+      assert.isTrue(every);
+    });
   });
 
   describe('#filter()', () => {
