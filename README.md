@@ -63,6 +63,7 @@ To run benchmarks of performance comparisons with other popular data manipulatio
   * [#sum()](#sum)
   * [#tail()](#tail)
   * [#take()](#take)
+  * [#takeWhile()](#takewhile)
   * [#unique()](#unique)
 
 ### List
@@ -626,6 +627,20 @@ If the given number of elements to take is larger than the number of available e
 const list = List.of(1, 2, 3);
 const taken = list.take(4);
 //=> List [ 1, 2, 3, 4 ]
+```
+
+#### #takeWhile()
+
+```
+List#takeWhile :: List<T> ~> (T -> Boolean) -> List<T>
+```
+
+Takes elements from the front of a `List` which pass a given predicate. Iteration will stop as soon as one element fails the given predicate.
+
+```js
+const list = List.of(1, 2, 3, 2, 1);
+const taken = list.takeWhile(x => x < 3);
+//=> List [ 1, 2 ]
 ```
 
 #### #unique()
