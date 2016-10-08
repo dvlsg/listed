@@ -336,6 +336,19 @@ class List extends Array {
     return list;
   }
 
+  takeWhile(predicate = identity) {
+    const length = this.length >>> 0;
+    const list = new List();
+    let index = -1;
+    while (
+         ++index < length
+      && predicate(this[index], index, this)
+    ) {
+      list[index] = this[index];
+    }
+    return list;
+  }
+
   unique(hasher = identity) {
     const length = this.length >>> 0;
     const list = new List();
